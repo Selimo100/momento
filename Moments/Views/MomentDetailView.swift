@@ -94,17 +94,16 @@ struct MomentDetailView: View {
         .sheet(isPresented: $viewModel.showingPhotoDetail) {
             if let photo = viewModel.selectedPhoto {
                 PhotoDetailView(
-                    photo: photo,
                     moment: moment,
-                    onFavoriteToggle: {
-                        viewModel.toggleFavorite(photo, in: moment, context: context)
+                    initialPhoto: photo,
+                    onFavoriteToggle: { p in
+                        viewModel.toggleFavorite(p, in: moment, context: context)
                     },
-                    onSetCover: {
-                        viewModel.setCover(photo, in: moment, context: context)
+                    onSetCover: { p in
+                        viewModel.setCover(p, in: moment, context: context)
                     },
-                    onRemove: {
-                        viewModel.removePhoto(photo, from: moment, context: context)
-                        viewModel.showingPhotoDetail = false
+                    onRemove: { p in
+                        viewModel.removePhoto(p, from: moment, context: context)
                     }
                 )
             }
