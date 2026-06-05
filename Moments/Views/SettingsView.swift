@@ -1,7 +1,13 @@
 import SwiftUI
 
+private let defaultAccentHex = "a0c1b9"
+
 struct SettingsView: View {
     @AppStorage("albumPrefix") private var albumPrefix = "Momento –"
+    @AppStorage("accentColorHex") private var accentColorHex = defaultAccentHex
+
+    @State private var pickerColor: Color = Color(hex: defaultAccentHex)
+    @State private var pickerSynced = false
 
     private var appVersion: String {
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
@@ -31,6 +37,23 @@ struct SettingsView: View {
                 }
 
                 Section {
+                    ColorPicker("Accent Color", selection: $pickerColor, supportsOpacity: false)
+                        .onChange(of: pickerColor) { _, newColor in
+                            accentColorHex = newColor.hexString
+                        }
+
+                    Button("Reset to Default") {
+                        pickerColor = Color(hex: defaultAccentHex)
+                        accentColorHex = defaultAccentHex
+                    }
+                    .foregroundStyle(.secondary)
+                } header: {
+                    Text("Appearance")
+                } footer: {
+                    Text("The accent color is used for buttons, toggles, and interactive elements throughout the app.")
+                }
+
+                Section {
                     privacyRow(icon: "lock.iphone", text: "All data stays on this device.")
                     privacyRow(icon: "person.slash", text: "No account or login required.")
                     privacyRow(icon: "server.rack", text: "No backend or cloud service.")
@@ -39,6 +62,12 @@ struct SettingsView: View {
                 } header: { Text("Privacy") }
             }
             .navigationTitle("Settings")
+            .onAppear {
+                if !pickerSynced {
+                    pickerColor = Color(hex: accentColorHex)
+                    pickerSynced = true
+                }
+            }
         }
     }
 
@@ -47,7 +76,7 @@ struct SettingsView: View {
         HStack(alignment: .top, spacing: 12) {
             Image(systemName: icon)
                 .font(.system(size: 15))
-                .foregroundStyle(Color.accentColor)
+                .foregroundStyle(Color(hex: accentColorHex))
                 .frame(width: 22)
             Text(text)
                 .font(.subheadline)

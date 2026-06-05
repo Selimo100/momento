@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct RootView: View {
+    @AppStorage("accentColorHex") private var accentColorHex = "a0c1b9"
+
     var body: some View {
         TabView {
             Tab("Momento", systemImage: "photo.on.rectangle.angled") {
@@ -10,5 +12,6 @@ struct RootView: View {
                 SettingsView()
             }
         }
+        .tint(Color(hex: accentColorHex))
     }
 }

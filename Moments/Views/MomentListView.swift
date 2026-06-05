@@ -72,10 +72,7 @@ struct MomentListView: View {
 
     private var momentGrid: some View {
         ScrollView {
-            LazyVGrid(
-                columns: [GridItem(.flexible(), spacing: 16), GridItem(.flexible(), spacing: 16)],
-                spacing: 16
-            ) {
+            LazyVStack(spacing: 16) {
                 ForEach(moments) { moment in
                     NavigationLink(destination: MomentDetailView(moment: moment)) {
                         MomentCardView(moment: moment)
@@ -96,7 +93,8 @@ struct MomentListView: View {
                     }
                 }
             }
-            .padding(16)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
         }
         .background(Color(.systemGroupedBackground))
     }
