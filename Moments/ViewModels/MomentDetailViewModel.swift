@@ -81,7 +81,7 @@ final class MomentDetailViewModel {
         try? context.save()
     }
 
-    func export(moment: Moment, scope: ExportScope) async {
+    func export(moment: Moment, scope: ExportScope, context: ModelContext) async {
         isExporting = true
 
         let candidates: [MomentPhoto]
@@ -110,8 +110,14 @@ final class MomentDetailViewModel {
         switch result {
         case .success(let count, let album):
             exportResultMessage = "Exported \(count) \(count == 1 ? "photo" : "photos") to \"\(album)\"."
+            moment.hasBeenExported = true
+            moment.lastExportedAt = .now
+            try? context.save()
         case .partial(let exported, let total, let album):
             exportResultMessage = "Exported \(exported) of \(total) photos to \"\(album)\". \(total - exported) could not be found."
+            moment.hasBeenExported = true
+            moment.lastExportedAt = .now
+            try? context.save()
         case .failure(let error):
             exportResultMessage = error.errorDescription
         }

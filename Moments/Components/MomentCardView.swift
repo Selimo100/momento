@@ -3,11 +3,13 @@ import SwiftUI
 struct MomentCardView: View {
     let moment: Moment
     @Environment(\.colorScheme) private var colorScheme
+    @AppStorage("accentColorHex") private var accentColorHex = "a0c1b9"
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             coverImageArea
             infoArea
+            completionStrip
         }
         .background(Color(.secondarySystemGroupedBackground))
         .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
@@ -70,6 +72,19 @@ struct MomentCardView: View {
                 .padding(12)
             }
         }
+    }
+
+    private var completionStrip: some View {
+        GeometryReader { geo in
+            ZStack(alignment: .leading) {
+                Rectangle()
+                    .fill(Color(.systemGray5))
+                Rectangle()
+                    .fill(Color(hex: accentColorHex).opacity(0.75))
+                    .frame(width: geo.size.width * CGFloat(moment.completionPercentage) / 100)
+            }
+        }
+        .frame(height: 3)
     }
 
     private var infoArea: some View {

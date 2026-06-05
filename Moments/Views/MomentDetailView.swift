@@ -24,8 +24,19 @@ struct MomentDetailView: View {
                     .ignoresSafeArea(edges: .top)
 
                 contentStack
-                    .padding(.top, 20)
+                    .padding(.top, 32)
                     .padding(.bottom, 100)
+                    .background(Color(.systemGroupedBackground))
+                    .clipShape(
+                        UnevenRoundedRectangle(
+                            topLeadingRadius: 24,
+                            bottomLeadingRadius: 0,
+                            bottomTrailingRadius: 0,
+                            topTrailingRadius: 24,
+                            style: .continuous
+                        )
+                    )
+                    .padding(.top, -24)
             }
         }
         .ignoresSafeArea(edges: .top)
@@ -85,7 +96,7 @@ struct MomentDetailView: View {
                 albumName: $viewModel.exportAlbumName,
                 isExporting: viewModel.isExporting,
                 onExport: { scope in
-                    Task { await viewModel.export(moment: moment, scope: scope) }
+                    Task { await viewModel.export(moment: moment, scope: scope, context: context) }
                 },
                 onCancel: { viewModel.showingExportSheet = false }
             )
@@ -144,6 +155,7 @@ struct MomentDetailView: View {
                 descriptionCard
             }
             StoryCardView(moment: moment)
+            MomentCompletionCard(moment: moment)
             photosSection
         }
         .padding(.horizontal, 16)

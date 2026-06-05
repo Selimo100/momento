@@ -29,6 +29,7 @@ struct MomentFormView: View {
     @State private var locationLatitude: Double?
     @State private var locationLongitude: Double?
     @State private var showLocationPicker = false
+    @State private var showContactPicker = false
     @State private var notes = ""
 
     private var isEditing: Bool {
@@ -97,8 +98,28 @@ struct MomentFormView: View {
                             .font(.body)
                             .foregroundStyle(.secondary)
                             .frame(width: 20)
+
                         TextField("Who was there?", text: $people)
                             .font(.body)
+
+                        Button {
+                            showContactPicker = true
+                        } label: {
+                            Image(systemName: "person.crop.circle.badge.plus")
+                                .font(.body)
+                                .foregroundStyle(.tint)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    .sheet(isPresented: $showContactPicker) {
+                        ContactPickerView { names in
+                            let joined = names.joined(separator: ", ")
+                            if people.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                people = joined
+                            } else {
+                                people += ", " + joined
+                            }
+                        }
                     }
 
                     Button {

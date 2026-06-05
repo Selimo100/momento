@@ -20,6 +20,9 @@ final class Moment {
     var locationLongitude: Double?
     var notes: String?
 
+    var hasBeenExported: Bool = false
+    var lastExportedAt: Date?
+
     @Relationship(deleteRule: .cascade, inverse: \MomentPhoto.moment)
     var photos: [MomentPhoto]
 

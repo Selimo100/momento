@@ -41,6 +41,9 @@
 		C2B3D4E5F6071829304A5B6C /* StoryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B3D4E5F6071829304A5B6D /* StoryCardView.swift */; };
 		D3C4E5F607182930415A6B7C /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C4E5F607182930415A6B7D /* String+Extensions.swift */; };
 		E4F5061728394A5B6C7D8E9F /* LocationPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F5061728394A5B6C7D8EA0 /* LocationPickerView.swift */; };
+		A5B6C7D8E9F0A1B2C3D4E5F6 /* MomentCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A6B7C8D9E0F1A2B3C4D5E6 /* MomentCompletion.swift */; };
+		A6B7C8D9E0F1A2B3C4D5E6F7 /* MomentCompletionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A7B8C9D0E1F2A3B4C5D6E7 /* MomentCompletionCard.swift */; };
+		F7A8B9C0D1E2F3A4B5C6D7E8 /* ContactPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A9B0C1D2E3F4A5B6C7D8E9 /* ContactPickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +83,9 @@
 		C2B3D4E5F6071829304A5B6D /* StoryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCardView.swift; sourceTree = "<group>"; };
 		D3C4E5F607182930415A6B7D /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		E4F5061728394A5B6C7D8EA0 /* LocationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerView.swift; sourceTree = "<group>"; };
+		F5A6B7C8D9E0F1A2B3C4D5E6 /* MomentCompletion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentCompletion.swift; sourceTree = "<group>"; };
+		F6A7B8C9D0E1F2A3B4C5D6E7 /* MomentCompletionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentCompletionCard.swift; sourceTree = "<group>"; };
+		F8A9B0C1D2E3F4A5B6C7D8E9 /* ContactPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactPickerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				429A0E22B792B7D89F4B86D3 /* Moment.swift */,
+				F5A6B7C8D9E0F1A2B3C4D5E6 /* MomentCompletion.swift */,
 				7B887D4FDA400538C85206C4 /* MomentPhoto.swift */,
 			);
 			path = Models;
@@ -164,9 +171,11 @@
 			isa = PBXGroup;
 			children = (
 				A286D766E33DFDDDCE63E7EF /* AssetThumbnailView.swift */,
+				F8A9B0C1D2E3F4A5B6C7D8E9 /* ContactPickerView.swift */,
 				A1023FB507B915A1E613DCCB /* EmptyStateView.swift */,
 				A190A5933117A5766B26F996 /* GlassIconButton.swift */,
 				42168FE8B0D5EC1085E35E1A /* MomentCardView.swift */,
+				F6A7B8C9D0E1F2A3B4C5D6E7 /* MomentCompletionCard.swift */,
 				27F436DDF34D4F08FC3131CD /* MomentHeroView.swift */,
 				B1A2C3D4E5F60718293A4B5D /* MoodChipView.swift */,
 				F31A930E2F56A28F86F943CD /* PhotoGridView.swift */,
@@ -320,6 +329,9 @@
 				C2B3D4E5F6071829304A5B6C /* StoryCardView.swift in Sources */,
 				D3C4E5F607182930415A6B7C /* String+Extensions.swift in Sources */,
 				E4F5061728394A5B6C7D8E9F /* LocationPickerView.swift in Sources */,
+				A5B6C7D8E9F0A1B2C3D4E5F6 /* MomentCompletion.swift in Sources */,
+				A6B7C8D9E0F1A2B3C4D5E6F7 /* MomentCompletionCard.swift in Sources */,
+				F7A8B9C0D1E2F3A4B5C6D7E8 /* ContactPickerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
