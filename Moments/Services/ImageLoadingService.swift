@@ -13,7 +13,6 @@ actor ImageLoadingService {
         if let cached = cache[cacheKey] {
             return cached
         }
-
         let result = await fetchImage(identifier: identifier, targetSize: targetSize, contentMode: .aspectFill)
         if let result {
             cache[cacheKey] = result
@@ -31,8 +30,10 @@ actor ImageLoadingService {
 
         return await withCheckedContinuation { continuation in
             let options = PHImageRequestOptions()
-            options.deliveryMode = targetSize == PHImageManagerMaximumSize ? .highQualityFormat : .opportunistic
-            options.resizeMode = .fast
+            // Always use highQualityFormat so the callback fires exactly once.
+            // opportunistic fires twice (degraded + final) which would crash withCheckedContinuation.
+            options.deliveryMode = .highQualityFormat
+            options.resizeMode = targetSize == PHImageManagerMaximumSize ? .none : .fast
             options.isNetworkAccessAllowed = true
 
             imageManager.requestImage(
@@ -40,13 +41,8 @@ actor ImageLoadingService {
                 targetSize: targetSize,
                 contentMode: contentMode,
                 options: options
-            ) { image, info in
-                let isDegraded = (info?[PHImageResultIsDegradedKey] as? Bool) ?? false
-                if !isDegraded {
-                    continuation.resume(returning: image)
-                } else if image != nil && targetSize != PHImageManagerMaximumSize {
-                    continuation.resume(returning: image)
-                }
+            ) { image, _ in
+                continuation.resume(returning: image)
             }
         }
     }

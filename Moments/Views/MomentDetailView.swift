@@ -54,7 +54,8 @@ struct MomentDetailView: View {
             isPresented: $viewModel.showingPhotoPicker,
             selection: $viewModel.photoPickerItems,
             maxSelectionCount: 100,
-            matching: .images
+            matching: .images,
+            photoLibrary: .shared()
         )
         .onChange(of: viewModel.photoPickerItems) { _, items in
             guard !items.isEmpty else { return }
@@ -152,9 +153,11 @@ struct MomentDetailView: View {
                     Text(moment.title)
                         .font(.title2.weight(.bold))
                         .foregroundStyle(.white)
-                    Text(moment.date.momentFormatted)
-                        .font(.subheadline)
-                        .foregroundStyle(.white.opacity(0.8))
+                    if let dateText = moment.dateDisplay {
+                        Text(dateText)
+                            .font(.subheadline)
+                            .foregroundStyle(.white.opacity(0.8))
+                    }
                 }
                 Spacer()
             }

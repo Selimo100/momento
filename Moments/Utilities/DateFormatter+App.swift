@@ -14,14 +14,18 @@ extension DateFormatter {
         f.timeStyle = .none
         return f
     }()
-}
 
-extension Date {
-    var momentFormatted: String {
-        DateFormatter.momentDate.string(from: self)
+    static func momentRange(from start: Date, to end: Date) -> String {
+        let formatter = DateIntervalFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .none
+        return formatter.string(from: start, to: end)
     }
 
-    var momentShortFormatted: String {
-        DateFormatter.momentShort.string(from: self)
+    static func momentShortRange(from start: Date, to end: Date) -> String {
+        let formatter = DateIntervalFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter.string(from: start, to: end)
     }
 }

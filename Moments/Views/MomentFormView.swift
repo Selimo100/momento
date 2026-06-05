@@ -14,9 +14,13 @@ struct MomentFormView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var title = ""
-    @State private var date = Date()
     @State private var momentDescription = ""
     @State private var showValidationError = false
+
+    @State private var hasDate = false
+    @State private var isDateRange = false
+    @State private var startDate = Date()
+    @State private var endDate = Calendar.current.date(byAdding: .day, value: 1, to: .now) ?? .now
 
     private var isEditing: Bool {
         if case .edit = mode { return true }
@@ -30,8 +34,6 @@ struct MomentFormView: View {
                     TextField("Title", text: $title)
                         .font(.body)
 
-                    DatePicker("Date", selection: $date, displayedComponents: .date)
-
                     TextField("Description", text: $momentDescription, axis: .vertical)
                         .lineLimit(3...6)
                         .font(.body)
@@ -39,6 +41,32 @@ struct MomentFormView: View {
                     if showValidationError {
                         Text("Please enter a title.")
                             .foregroundStyle(.red)
+                            .font(.caption)
+                    }
+                }
+
+                Section {
+                    Toggle("Set a date", isOn: $hasDate.animation())
+
+                    if hasDate {
+                        DatePicker("Start date", selection: $startDate, displayedComponents: .date)
+
+                        Toggle("Date range", isOn: $isDateRange.animation())
+
+                        if isDateRange {
+                            DatePicker(
+                                "End date",
+                                selection: $endDate,
+                                in: startDate...,
+                                displayedComponents: .date
+                            )
+                        }
+                    }
+                } header: {
+                    Text("When")
+                } footer: {
+                    if hasDate && isDateRange {
+                        Text("A date range lets you capture a period, like a trip or an event.")
                             .font(.caption)
                     }
                 }
@@ -61,8 +89,15 @@ struct MomentFormView: View {
     private func prefill() {
         if case .edit(let moment) = mode {
             title = moment.title
-            date = moment.date
             momentDescription = moment.momentDescription
+            if let start = moment.startDate {
+                hasDate = true
+                startDate = start
+                if let end = moment.endDate {
+                    isDateRange = true
+                    endDate = end
+                }
+            }
         }
     }
 
@@ -73,9 +108,17 @@ struct MomentFormView: View {
             return
         }
 
+        let resolvedStart: Date? = hasDate ? startDate : nil
+        let resolvedEnd: Date? = (hasDate && isDateRange) ? endDate : nil
+
         switch mode {
         case .create:
-            let moment = Moment(title: trimmed, date: date, momentDescription: momentDescription)
+            let moment = Moment(
+                title: trimmed,
+                startDate: resolvedStart,
+                endDate: resolvedEnd,
+                momentDescription: momentDescription
+            )
             context.insert(moment)
             try? context.save()
             dismiss()
@@ -83,8 +126,9 @@ struct MomentFormView: View {
 
         case .edit(let moment):
             moment.title = trimmed
-            moment.date = date
             moment.momentDescription = momentDescription
+            moment.startDate = resolvedStart
+            moment.endDate = resolvedEnd
             moment.updatedAt = .now
             try? context.save()
             dismiss()

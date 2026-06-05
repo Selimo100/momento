@@ -65,9 +65,12 @@ struct MomentCardView: View {
                 .lineLimit(1)
 
             HStack {
-                Text(moment.date.momentShortFormatted)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                if let dateText = moment.shortDateDisplay {
+                    Text(dateText)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                }
 
                 Spacer()
 

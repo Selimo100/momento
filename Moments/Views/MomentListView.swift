@@ -3,7 +3,7 @@ import SwiftData
 
 struct MomentListView: View {
     @Environment(\.modelContext) private var context
-    @Query(sort: \Moment.date, order: .reverse) private var moments: [Moment]
+    @Query(sort: \Moment.createdAt, order: .reverse) private var moments: [Moment]
 
     @State private var viewModel = MomentListViewModel()
     @State private var momentToDelete: Moment?
