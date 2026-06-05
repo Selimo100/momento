@@ -3,50 +3,60 @@ import SwiftUI
 struct PhotoThumbnailView: View {
     let photo: MomentPhoto
     let isCover: Bool
-    let targetSize: CGSize
     let cornerRadius: CGFloat
     let onTap: () -> Void
 
     init(
         photo: MomentPhoto,
         isCover: Bool,
-        targetSize: CGSize = CGSize(width: 200, height: 200),
-        cornerRadius: CGFloat = 10,
+        cornerRadius: CGFloat = 18,
         onTap: @escaping () -> Void
     ) {
         self.photo = photo
         self.isCover = isCover
-        self.targetSize = targetSize
         self.cornerRadius = cornerRadius
         self.onTap = onTap
     }
 
     var body: some View {
         Button(action: onTap) {
-            ZStack(alignment: .topTrailing) {
-                AssetThumbnailView(localIdentifier: photo.localIdentifier, targetSize: targetSize)
-                    .aspectRatio(1, contentMode: .fill)
-                    .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
-
-                VStack(alignment: .trailing, spacing: 3) {
-                    if isCover {
-                        Image(systemName: "star.fill")
-                            .font(.caption2.weight(.bold))
-                            .foregroundStyle(.yellow)
-                            .padding(5)
-                            .glassEffect(.regular, in: Circle())
-                    }
-                    if photo.isFavorite {
-                        Image(systemName: "heart.fill")
-                            .font(.caption2.weight(.bold))
-                            .foregroundStyle(.pink)
-                            .padding(5)
-                            .glassEffect(.regular, in: Circle())
-                    }
+            Color.clear
+                .aspectRatio(1, contentMode: .fit)
+                .overlay {
+                    AssetThumbnailView(
+                        localIdentifier: photo.localIdentifier,
+                        targetSize: CGSize(width: 300, height: 300)
+                    )
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
-                .padding(5)
-            }
+                .overlay(alignment: .topTrailing) {
+                    badgesView
+                }
+                .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
         }
         .buttonStyle(.plain)
+    }
+
+    @ViewBuilder
+    private var badgesView: some View {
+        if isCover || photo.isFavorite {
+            VStack(alignment: .trailing, spacing: 3) {
+                if isCover {
+                    Image(systemName: "star.fill")
+                        .font(.caption2.weight(.bold))
+                        .foregroundStyle(.yellow)
+                        .padding(5)
+                        .glassEffect(.regular, in: Circle())
+                }
+                if photo.isFavorite {
+                    Image(systemName: "heart.fill")
+                        .font(.caption2.weight(.bold))
+                        .foregroundStyle(.pink)
+                        .padding(5)
+                        .glassEffect(.regular, in: Circle())
+                }
+            }
+            .padding(5)
+        }
     }
 }

@@ -22,6 +22,15 @@ struct MomentFormView: View {
     @State private var startDate = Date()
     @State private var endDate = Calendar.current.date(byAdding: .day, value: 1, to: .now) ?? .now
 
+    @State private var mood = ""
+    @State private var story = ""
+    @State private var people = ""
+    @State private var locationName = ""
+    @State private var locationLatitude: Double?
+    @State private var locationLongitude: Double?
+    @State private var showLocationPicker = false
+    @State private var notes = ""
+
     private var isEditing: Bool {
         if case .edit = mode { return true }
         return false
@@ -70,6 +79,81 @@ struct MomentFormView: View {
                             .font(.caption)
                     }
                 }
+
+                Section {
+                    TextField("Mood", text: $mood)
+                        .font(.body)
+
+                    TextField("What made this moment special?", text: $story, axis: .vertical)
+                        .lineLimit(3...8)
+                        .font(.body)
+                } header: {
+                    Text("Story")
+                }
+
+                Section {
+                    HStack(spacing: 10) {
+                        Image(systemName: "person.2")
+                            .font(.body)
+                            .foregroundStyle(.secondary)
+                            .frame(width: 20)
+                        TextField("Who was there?", text: $people)
+                            .font(.body)
+                    }
+
+                    Button {
+                        showLocationPicker = true
+                    } label: {
+                        HStack(spacing: 10) {
+                            Image(systemName: "mappin.and.ellipse")
+                                .font(.body)
+                                .foregroundStyle(.secondary)
+                                .frame(width: 20)
+
+                            if locationName.isEmpty {
+                                Text("Where did it happen?")
+                                    .font(.body)
+                                    .foregroundStyle(Color(.placeholderText))
+                            } else {
+                                Text(locationName)
+                                    .font(.body)
+                                    .foregroundStyle(.primary)
+                            }
+
+                            Spacer()
+
+                            if !locationName.isEmpty {
+                                Button {
+                                    locationName = ""
+                                    locationLatitude = nil
+                                    locationLongitude = nil
+                                } label: {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .foregroundStyle(.secondary)
+                                        .font(.body)
+                                }
+                            } else {
+                                Image(systemName: "chevron.right")
+                                    .font(.caption.weight(.semibold))
+                                    .foregroundStyle(.tertiary)
+                            }
+                        }
+                    }
+                    .buttonStyle(.plain)
+                    .sheet(isPresented: $showLocationPicker) {
+                        LocationPickerView(
+                            locationName: $locationName,
+                            latitude: $locationLatitude,
+                            longitude: $locationLongitude
+                        )
+                    }
+
+                    TextField("Small things you want to remember...", text: $notes, axis: .vertical)
+                        .lineLimit(2...5)
+                        .font(.body)
+                } header: {
+                    Text("Details")
+                }
             }
             .navigationTitle(isEditing ? "Edit Moment" : "New Moment")
             .navigationBarTitleDisplayMode(.inline)
@@ -98,6 +182,13 @@ struct MomentFormView: View {
                     endDate = end
                 }
             }
+            mood = moment.mood ?? ""
+            story = moment.story ?? ""
+            people = moment.people ?? ""
+            locationName = moment.locationName ?? ""
+            locationLatitude = moment.locationLatitude
+            locationLongitude = moment.locationLongitude
+            notes = moment.notes ?? ""
         }
     }
 
@@ -119,6 +210,13 @@ struct MomentFormView: View {
                 endDate: resolvedEnd,
                 momentDescription: momentDescription
             )
+            moment.mood = mood.trimmedOrNil
+            moment.story = story.trimmedOrNil
+            moment.people = people.trimmedOrNil
+            moment.locationName = locationName.trimmedOrNil
+            moment.locationLatitude = locationLatitude
+            moment.locationLongitude = locationLongitude
+            moment.notes = notes.trimmedOrNil
             context.insert(moment)
             try? context.save()
             dismiss()
@@ -129,6 +227,13 @@ struct MomentFormView: View {
             moment.momentDescription = momentDescription
             moment.startDate = resolvedStart
             moment.endDate = resolvedEnd
+            moment.mood = mood.trimmedOrNil
+            moment.story = story.trimmedOrNil
+            moment.people = people.trimmedOrNil
+            moment.locationName = locationName.trimmedOrNil
+            moment.locationLatitude = locationLatitude
+            moment.locationLongitude = locationLongitude
+            moment.notes = notes.trimmedOrNil
             moment.updatedAt = .now
             try? context.save()
             dismiss()

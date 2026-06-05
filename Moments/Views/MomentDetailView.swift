@@ -25,7 +25,7 @@ struct MomentDetailView: View {
 
                 contentStack
                     .padding(.top, 20)
-                    .padding(.bottom, 40)
+                    .padding(.bottom, 100)
             }
         }
         .ignoresSafeArea(edges: .top)
@@ -144,6 +144,7 @@ struct MomentDetailView: View {
             if !moment.momentDescription.isEmpty {
                 descriptionCard
             }
+            StoryCardView(moment: moment)
             photosSection
         }
         .padding(.horizontal, 16)
@@ -179,7 +180,7 @@ struct MomentDetailView: View {
             if moment.photos.isEmpty {
                 emptyPhotosCard
             } else {
-                SectionCard(insets: 12) {
+                SectionCard(insets: 10) {
                     PhotoGridView(
                         photos: moment.photos,
                         coverPhotoId: moment.coverPhotoId

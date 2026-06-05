@@ -12,6 +12,14 @@ final class Moment {
     var createdAt: Date
     var updatedAt: Date
 
+    var mood: String?
+    var story: String?
+    var people: String?
+    var locationName: String?
+    var locationLatitude: Double?
+    var locationLongitude: Double?
+    var notes: String?
+
     @Relationship(deleteRule: .cascade, inverse: \MomentPhoto.moment)
     var photos: [MomentPhoto]
 

@@ -6,19 +6,17 @@ struct PhotoGridView: View {
     let onTap: (MomentPhoto) -> Void
 
     private let columns = [
-        GridItem(.flexible(), spacing: 8),
-        GridItem(.flexible(), spacing: 8),
-        GridItem(.flexible(), spacing: 8)
+        GridItem(.flexible(), spacing: 10),
+        GridItem(.flexible(), spacing: 10),
+        GridItem(.flexible(), spacing: 10)
     ]
 
     var body: some View {
-        LazyVGrid(columns: columns, spacing: 8) {
+        LazyVGrid(columns: columns, spacing: 10) {
             ForEach(photos.sorted { $0.addedAt < $1.addedAt }) { photo in
                 PhotoThumbnailView(
                     photo: photo,
-                    isCover: photo.id == coverPhotoId,
-                    targetSize: CGSize(width: 200, height: 200),
-                    cornerRadius: 10
+                    isCover: photo.id == coverPhotoId
                 ) {
                     onTap(photo)
                 }

@@ -74,7 +74,7 @@ struct MomentCardView: View {
 
     private var infoArea: some View {
         HStack(alignment: .top, spacing: 12) {
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 6) {
                 Text(moment.title)
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundStyle(.primary)
@@ -85,6 +85,10 @@ struct MomentCardView: View {
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
+                }
+
+                if let mood = moment.mood {
+                    MoodChipView(mood: mood)
                 }
             }
 
