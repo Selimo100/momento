@@ -21,15 +21,20 @@
 		503D25BAA8F6DD219A9E54E6 /* MomentPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B887D4FDA400538C85206C4 /* MomentPhoto.swift */; };
 		54CE7CA58CD34D677C4A5B34 /* PhotoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4476BCBB0019D68D3266B3BA /* PhotoDetailView.swift */; };
 		5C1219348AC3582368CEE217 /* Moment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429A0E22B792B7D89F4B86D3 /* Moment.swift */; };
+		5C38FE9C9ECD250CEF91F8CC /* MomentHeroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F436DDF34D4F08FC3131CD /* MomentHeroView.swift */; };
 		730DEF577D975919E18D6332 /* ImageLoadingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248E3A6C10908E132E0A4AE9 /* ImageLoadingService.swift */; };
 		7ACDB4EB83863C32598EF05C /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1023FB507B915A1E613DCCB /* EmptyStateView.swift */; };
+		80905D5826477874B18B2480 /* SectionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7074AC0E6A89E0517733ACEE /* SectionCard.swift */; };
 		8A47AB1F7F2AC1006481F2D0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C47BA01CD23609EA4BD135C9 /* Assets.xcassets */; };
 		8AAF2EE142286C6F50853E16 /* MomentsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D762502A4C8A12BEF9B89A27 /* MomentsApp.swift */; };
 		8AD5B5FF5EF9E5254CF0A839 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE43C99E939A92CF9E1FA64 /* RootView.swift */; };
+		90E1A801B469D04A7F979E1B /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF0AB99806BB8FD02C8BBD /* Color+Hex.swift */; };
 		9E515A8694158C27EA17A423 /* MomentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16D06578DF62E5498E4358F /* MomentListView.swift */; };
 		A455797BB43B3894E01A8D00 /* PhotoGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31A930E2F56A28F86F943CD /* PhotoGridView.swift */; };
 		ADD3321288B1625FF104F8BA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F18C89FDF5042B476267194 /* SettingsView.swift */; };
+		BD39C2CECA76E4B048F2C822 /* PhotoThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AD06BDE920949C9D699BEB /* PhotoThumbnailView.swift */; };
 		D108AE5E01B0F986453FA04F /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FC8E25603896E76212AA3D9 /* Photos.framework */; };
+		E49A0FA75D39D6E676DA49D6 /* GlassIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A190A5933117A5766B26F996 /* GlassIconButton.swift */; };
 		E4B486135B77D8AC056EE303 /* ExportSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7973F2A11A2862A2E8146D0 /* ExportSheetView.swift */; };
 		FE2F372978AAB96B147BEE73 /* PhotoLibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45265D3DCEC4C042C763BC7 /* PhotoLibraryService.swift */; };
 /* End PBXBuildFile section */
@@ -38,7 +43,9 @@
 		0EE43C99E939A92CF9E1FA64 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		203DEE64AF45F3251E76C213 /* Momento.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Momento.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		248E3A6C10908E132E0A4AE9 /* ImageLoadingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoadingService.swift; sourceTree = "<group>"; };
+		27F436DDF34D4F08FC3131CD /* MomentHeroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentHeroView.swift; sourceTree = "<group>"; };
 		3877C51EECC4A47081A2FB21 /* MomentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentDetailView.swift; sourceTree = "<group>"; };
+		3FAF0AB99806BB8FD02C8BBD /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
 		417179B682EA45F4A5A8C092 /* PermissionHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionHelpers.swift; sourceTree = "<group>"; };
 		42168FE8B0D5EC1085E35E1A /* MomentCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentCardView.swift; sourceTree = "<group>"; };
 		429A0E22B792B7D89F4B86D3 /* Moment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Moment.swift; sourceTree = "<group>"; };
@@ -46,11 +53,14 @@
 		4F18C89FDF5042B476267194 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5D0E5AB01022AAFC68DCDE2F /* DateFormatter+App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+App.swift"; sourceTree = "<group>"; };
 		5FC8E25603896E76212AA3D9 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
+		65AD06BDE920949C9D699BEB /* PhotoThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoThumbnailView.swift; sourceTree = "<group>"; };
+		7074AC0E6A89E0517733ACEE /* SectionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionCard.swift; sourceTree = "<group>"; };
 		71033A062913E7FB3EEFD925 /* PhotosUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhotosUI.framework; path = System/Library/Frameworks/PhotosUI.framework; sourceTree = SDKROOT; };
 		7B887D4FDA400538C85206C4 /* MomentPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentPhoto.swift; sourceTree = "<group>"; };
 		8E775CD24032600B4506DEB7 /* MomentFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentFormView.swift; sourceTree = "<group>"; };
 		911F86B45F38648912D14BC3 /* MomentDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentDetailViewModel.swift; sourceTree = "<group>"; };
 		A1023FB507B915A1E613DCCB /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
+		A190A5933117A5766B26F996 /* GlassIconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassIconButton.swift; sourceTree = "<group>"; };
 		A286D766E33DFDDDCE63E7EF /* AssetThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetThumbnailView.swift; sourceTree = "<group>"; };
 		A94125841A807E0C1EEE16C6 /* PhotoExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoExportService.swift; sourceTree = "<group>"; };
 		C45265D3DCEC4C042C763BC7 /* PhotoLibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryService.swift; sourceTree = "<group>"; };
@@ -134,6 +144,7 @@
 		AC2228BB2E9C3638F5BB58B4 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				3FAF0AB99806BB8FD02C8BBD /* Color+Hex.swift */,
 				5D0E5AB01022AAFC68DCDE2F /* DateFormatter+App.swift */,
 				417179B682EA45F4A5A8C092 /* PermissionHelpers.swift */,
 			);
@@ -145,9 +156,13 @@
 			children = (
 				A286D766E33DFDDDCE63E7EF /* AssetThumbnailView.swift */,
 				A1023FB507B915A1E613DCCB /* EmptyStateView.swift */,
+				A190A5933117A5766B26F996 /* GlassIconButton.swift */,
 				42168FE8B0D5EC1085E35E1A /* MomentCardView.swift */,
+				27F436DDF34D4F08FC3131CD /* MomentHeroView.swift */,
 				F31A930E2F56A28F86F943CD /* PhotoGridView.swift */,
+				65AD06BDE920949C9D699BEB /* PhotoThumbnailView.swift */,
 				E0770898CB9A732422DFE6AB /* PrimaryButton.swift */,
+				7074AC0E6A89E0517733ACEE /* SectionCard.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -263,15 +278,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				4EB00CD649FF101EE1B5EB34 /* AssetThumbnailView.swift in Sources */,
+				90E1A801B469D04A7F979E1B /* Color+Hex.swift in Sources */,
 				2DF224F86D65A2B52F23CA6C /* DateFormatter+App.swift in Sources */,
 				7ACDB4EB83863C32598EF05C /* EmptyStateView.swift in Sources */,
 				E4B486135B77D8AC056EE303 /* ExportSheetView.swift in Sources */,
+				E49A0FA75D39D6E676DA49D6 /* GlassIconButton.swift in Sources */,
 				730DEF577D975919E18D6332 /* ImageLoadingService.swift in Sources */,
 				5C1219348AC3582368CEE217 /* Moment.swift in Sources */,
 				4AB292BF5EF91A7923553FDB /* MomentCardView.swift in Sources */,
 				2FB31B423353431E2AC442C4 /* MomentDetailView.swift in Sources */,
 				4376B5E64E3837452CA2F21B /* MomentDetailViewModel.swift in Sources */,
 				1AAB9EDAA75ADCD679AE5167 /* MomentFormView.swift in Sources */,
+				5C38FE9C9ECD250CEF91F8CC /* MomentHeroView.swift in Sources */,
 				9E515A8694158C27EA17A423 /* MomentListView.swift in Sources */,
 				4CCB8EB1452EE2C097B0BC9E /* MomentListViewModel.swift in Sources */,
 				503D25BAA8F6DD219A9E54E6 /* MomentPhoto.swift in Sources */,
@@ -281,8 +299,10 @@
 				43661F34D5D33DC81A272DB6 /* PhotoExportService.swift in Sources */,
 				A455797BB43B3894E01A8D00 /* PhotoGridView.swift in Sources */,
 				FE2F372978AAB96B147BEE73 /* PhotoLibraryService.swift in Sources */,
+				BD39C2CECA76E4B048F2C822 /* PhotoThumbnailView.swift in Sources */,
 				095D7078F7B286846DD24F81 /* PrimaryButton.swift in Sources */,
 				8AD5B5FF5EF9E5254CF0A839 /* RootView.swift in Sources */,
+				80905D5826477874B18B2480 /* SectionCard.swift in Sources */,
 				ADD3321288B1625FF104F8BA /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

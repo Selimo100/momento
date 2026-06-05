@@ -7,46 +7,61 @@ struct MomentDetailView: View {
     let moment: Moment
 
     @Environment(\.modelContext) private var context
+    @Environment(\.dismiss) private var dismiss
     @AppStorage("albumPrefix") private var albumPrefix = "Momento –"
+    @AppStorage("accentColorHex") private var accentColorHex = "a0c1b9"
 
     @State private var viewModel = MomentDetailViewModel()
     @State private var showEditSheet = false
+    @State private var showDeleteConfirmation = false
     @State private var showPermissionAlert = false
     @State private var permissionMessage = ""
 
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                coverSection
-                    .padding(.bottom, 20)
+                MomentHeroView(moment: moment)
+                    .ignoresSafeArea(edges: .top)
 
-                infoSection
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 24)
-
-                photoSection
+                contentStack
+                    .padding(.top, 20)
+                    .padding(.bottom, 40)
             }
         }
+        .ignoresSafeArea(edges: .top)
         .background(Color(.systemGroupedBackground))
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .toolbarBackground(.hidden, for: .navigationBar)
+        .toolbarColorScheme(.dark, for: .navigationBar)
         .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                GlassIconButton(icon: "chevron.left") { dismiss() }
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
-                    Button {
-                        showEditSheet = true
-                    } label: {
+                    Button { showEditSheet = true } label: {
                         Label("Edit Moment", systemImage: "pencil")
                     }
-                    Button {
-                        prepareExport()
-                    } label: {
+                    Button { prepareExport() } label: {
                         Label("Export to Photos", systemImage: "square.and.arrow.up")
                     }
+                    Divider()
+                    Button(role: .destructive) {
+                        showDeleteConfirmation = true
+                    } label: {
+                        Label("Delete Moment", systemImage: "trash")
+                    }
                 } label: {
-                    Image(systemName: "ellipsis.circle")
+                    Image(systemName: "ellipsis")
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundStyle(.white)
+                        .frame(width: 36, height: 36)
+                        .glassEffect(.regular, in: Circle())
                 }
             }
         }
+        // MARK: Sheets & Pickers
         .sheet(isPresented: $showEditSheet) {
             MomentFormView(mode: .edit(moment))
         }
@@ -94,6 +109,7 @@ struct MomentDetailView: View {
                 )
             }
         }
+        // MARK: Alerts
         .alert("Export Result", isPresented: $viewModel.showExportResult) {
             Button("OK") {}
         } message: {
@@ -105,140 +121,140 @@ struct MomentDetailView: View {
         } message: {
             Text(permissionMessage)
         }
-    }
-
-    // MARK: Cover
-
-    private var coverSection: some View {
-        ZStack(alignment: .bottom) {
-            if let cover = moment.coverPhoto {
-                AssetThumbnailView(
-                    localIdentifier: cover.localIdentifier,
-                    targetSize: CGSize(width: 800, height: 500)
-                )
-                .frame(maxWidth: .infinity)
-                .frame(height: 280)
-                .clipped()
-            } else {
-                Rectangle()
-                    .fill(
-                        LinearGradient(
-                            colors: [Color(.systemGray5), Color(.systemGray4)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .frame(height: 280)
-                    .overlay {
-                        VStack(spacing: 8) {
-                            Image(systemName: "photo.on.rectangle.angled")
-                                .font(.system(size: 44, weight: .light))
-                                .foregroundStyle(.tertiary)
-                            Text("No Cover Photo")
-                                .font(.caption)
-                                .foregroundStyle(.tertiary)
-                        }
-                    }
+        .confirmationDialog(
+            "Delete Moment",
+            isPresented: $showDeleteConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button("Delete", role: .destructive) {
+                context.delete(moment)
+                try? context.save()
+                dismiss()
             }
-
-            LinearGradient(
-                colors: [.clear, .black.opacity(0.45)],
-                startPoint: .center,
-                endPoint: .bottom
-            )
-            .frame(height: 280)
-
-            HStack {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(moment.title)
-                        .font(.title2.weight(.bold))
-                        .foregroundStyle(.white)
-                    if let dateText = moment.dateDisplay {
-                        Text(dateText)
-                            .font(.subheadline)
-                            .foregroundStyle(.white.opacity(0.8))
-                    }
-                }
-                Spacer()
-            }
-            .padding(.horizontal, 20)
-            .padding(.bottom, 18)
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This removes the moment and its photo references. Your original photos in Apple Photos are not affected.")
         }
     }
 
-    // MARK: Info
+    // MARK: Content
 
-    @ViewBuilder
-    private var infoSection: some View {
-        if !moment.momentDescription.isEmpty {
-            HStack {
-                Text(moment.momentDescription)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-                Spacer()
+    private var contentStack: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            if !moment.momentDescription.isEmpty {
+                descriptionCard
             }
-            .padding(.top, 4)
+            photosSection
+        }
+        .padding(.horizontal, 16)
+    }
+
+    // MARK: Description
+
+    private var descriptionCard: some View {
+        SectionCard {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("About this moment")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .textCase(.uppercase)
+                    .tracking(0.6)
+
+                Text(moment.momentDescription)
+                    .font(.body)
+                    .foregroundStyle(.primary)
+                    .lineSpacing(3)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 
     // MARK: Photos
 
-    private var photoSection: some View {
+    private var photosSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Text("Photos")
-                    .font(.headline)
-                Spacer()
-                if moment.favoriteCount > 0 {
-                    HStack(spacing: 4) {
-                        Image(systemName: "heart.fill")
-                            .font(.caption)
-                            .foregroundStyle(.pink)
-                        Text("\(moment.favoriteCount)")
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(.secondary)
-                    }
-                }
-                Button {
-                    checkPermissionsAndAddPhotos()
-                } label: {
-                    Image(systemName: "plus")
-                        .fontWeight(.semibold)
-                        .padding(8)
-                        .background(Color(.tertiarySystemGroupedBackground), in: Circle())
-                }
-            }
-            .padding(.horizontal, 20)
+            photosSectionHeader
 
             if moment.photos.isEmpty {
-                emptyPhotosState
-                    .padding(.top, 20)
+                emptyPhotosCard
             } else {
-                PhotoGridView(
-                    photos: moment.photos,
-                    coverPhotoId: moment.coverPhotoId
-                ) { photo in
-                    viewModel.selectedPhoto = photo
-                    viewModel.showingPhotoDetail = true
+                SectionCard(insets: 12) {
+                    PhotoGridView(
+                        photos: moment.photos,
+                        coverPhotoId: moment.coverPhotoId
+                    ) { photo in
+                        viewModel.selectedPhoto = photo
+                        viewModel.showingPhotoDetail = true
+                    }
                 }
-                .padding(.bottom, 32)
             }
         }
     }
 
-    private var emptyPhotosState: some View {
-        VStack(spacing: 16) {
-            EmptyStateView(
-                icon: "photo.badge.plus",
-                title: "No Photos Yet",
-                message: "Add photos from your library to this moment.",
-                actionTitle: "Add Photos"
-            ) {
+    private var photosSectionHeader: some View {
+        HStack(spacing: 4) {
+            Text("Photos")
+                .font(.system(size: 17, weight: .semibold))
+
+            Text("·")
+                .foregroundStyle(.tertiary)
+                .font(.system(size: 17))
+
+            Text("\(moment.photos.count)")
+                .font(.system(size: 17, weight: .semibold))
+                .foregroundStyle(.secondary)
+
+            Spacer()
+
+            if moment.favoriteCount > 0 {
+                HStack(spacing: 4) {
+                    Image(systemName: "heart.fill")
+                        .font(.caption)
+                        .foregroundStyle(.pink)
+                    Text("\(moment.favoriteCount)")
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.trailing, 6)
+            }
+
+            Button {
                 checkPermissionsAndAddPhotos()
+            } label: {
+                Image(systemName: "plus")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(Color(hex: accentColorHex))
+                    .frame(width: 32, height: 32)
+                    .background(Color(.tertiarySystemGroupedBackground), in: Circle())
             }
         }
-        .padding(.vertical, 32)
+    }
+
+    private var emptyPhotosCard: some View {
+        SectionCard {
+            VStack(spacing: 16) {
+                Image(systemName: "photo.badge.plus")
+                    .font(.system(size: 44, weight: .light))
+                    .foregroundStyle(.tertiary)
+
+                VStack(spacing: 6) {
+                    Text("No photos yet")
+                        .font(.system(size: 16, weight: .semibold))
+
+                    Text("Add your favorite pictures to bring this moment to life.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 16)
+                }
+
+                PrimaryButton("Add Photos", icon: "plus") {
+                    checkPermissionsAndAddPhotos()
+                }
+            }
+            .padding(.vertical, 20)
+        }
     }
 
     // MARK: Actions
