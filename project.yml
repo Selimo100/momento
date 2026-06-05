@@ -1,0 +1,35 @@
+name: Momento
+options:
+  bundleIdPrefix: ch.mogicato
+  deploymentTarget:
+    iOS: "26.0"
+  xcodeVersion: "16.0"
+  generateEmptyDirectories: true
+
+settings:
+  base:
+    SWIFT_VERSION: 6.0
+    IPHONEOS_DEPLOYMENT_TARGET: "26.0"
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_STYLE: Automatic
+
+targets:
+  Momento:
+    type: application
+    platform: iOS
+    deploymentTarget: "26.0"
+    sources:
+      - path: Moments
+        excludes:
+          - "**/*.md"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: ch.mogicato.Momento
+        PRODUCT_NAME: Momento
+        INFOPLIST_FILE: Moments/App/Info.plist
+        SWIFT_VERSION: 6.0
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ENABLE_PREVIEWS: YES
+    dependencies:
+      - sdk: Photos.framework
+      - sdk: PhotosUI.framework
